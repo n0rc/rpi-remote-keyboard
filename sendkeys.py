@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-#
-# (c)2019 n0rc
+# (c)2020 n0rc
 
 import keycodes
 import sys
