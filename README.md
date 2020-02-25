@@ -8,7 +8,12 @@ The Pi is back-powered over the USB port of the connected computer and doesn't n
 
 #### Setup
 1. Connect your Pi to your computer using the Pi's Micro-USB **data** port
-2. Run `gadgetsetup.sh` at boot time (e.g. via `/etc/rc.local`)
+2. Enable required device tree overlay and modules:
+```sh
+> echo "dtoverlay=dwc2" | sudo tee -a /boot/config.txt
+> echo "dwc2" | sudo tee -a /etc/modules
+```
+3. Run `gadgetsetup.sh` at boot time (e.g. via `/etc/rc.local`)
 
 #### Usage
 ```sh
@@ -20,7 +25,9 @@ The Pi is back-powered over the USB port of the connected computer and doesn't n
 > sudo ./sendkeys.py 'Anything is better than nothing!'
 ```
 
-#### Specifications
+#### Credits
+* https://github.com/girst/hardpass-sendHID
 
+#### Specs
 * https://www.usb.org/sites/default/files/documents/hid1_11.pdf
 * https://www.usb.org/sites/default/files/documents/hut1_12v2.pdf
