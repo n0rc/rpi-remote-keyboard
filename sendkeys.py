@@ -2,8 +2,12 @@
 # (c)2020 n0rc
 
 import keycodes
+import re
 import sys
 import time
+
+from getpass import getpass
+from argparse import ArgumentParser
 
 # key release report = 8 null bytes
 report_keyrelease = bytes(8)
@@ -22,26 +26,35 @@ def send_enter():
     write_report(keycodes.ENTER)
 
 
-def send_key(key):
-    if key in keycodes.KEYS:
-        write_report(*keycodes.KEYS[key])
+def send_key(key, codelist):
+    if key in codelist:
+        write_report(*codelist[key])
     else:
         print("no keycode found for {}".format(key))
 
 
 if __name__ == '__main__':
-    if len(sys.argv) < 2:
-        print("usage:\t{} string".format(sys.argv[0]))
+
+    parser = ArgumentParser()
+    parser.add_argument('-l', '--layout', help='set keyboard layout ("de", "us"), default is "us"' , default='us')
+    parser.add_argument('-p', '--password', help='enable password entry mode', action='store_true')
+    args, rem = parser.parse_known_args()
+
+    if not re.match(r'^(us|de)$', args.layout) or not args.password and not rem:
+        parser.print_help()
         sys.exit(0)
 
-    string = sys.argv[1]
+    if args.password:
+        string = getpass('password: ')
+    else:
+        string = rem[0]
+
+    codelist = getattr(keycodes, args.layout.upper())
 
     # send each character in string
     for key in list(string):
-        send_key(key)
+        send_key(key, codelist)
         time.sleep(0.1)
 
-    # send ENTER two times
-    send_enter()
-    time.sleep(0.5)
+    # send ENTER
     send_enter()
