@@ -17,12 +17,9 @@ The Pi is back-powered over the USB port of the connected computer and doesn't n
 
 #### Usage
 ```sh
-> sudo ./sendkeys.py "string"
-```
-
-#### Example
-```sh
-> sudo ./sendkeys.py 'Anything is better than nothing!'
+> sudo ./sendkeys.py "string"    # send "string" to connected computer, simulating keyboard input
+> sudo ./sendkeys.py -l de -p    # send something using german keyboard layout and password mode (no echo)
+> sudo ./sendkeys.py -h          # show help
 ```
 
 #### Credits
