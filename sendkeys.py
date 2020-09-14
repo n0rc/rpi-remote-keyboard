@@ -2,6 +2,7 @@
 # (c)2020 n0rc
 
 import keycodes
+import os
 import re
 import sys
 import time
@@ -42,6 +43,10 @@ if __name__ == '__main__':
 
     if not re.match(r'^(us|de)$', args.layout) or not args.password and not rem:
         parser.print_help()
+        sys.exit(0)
+
+    if os.geteuid() != 0:
+        print("please run as root")
         sys.exit(0)
 
     if args.password:
